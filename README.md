@@ -1,95 +1,50 @@
-# DataVerse — 1st Place Project (Phase Shift 2025)
+﻿# DataVerse — Project Summary
 
-Certificate awarded to Parikshith Aithal in recognition of exceptional performance for securing 1st Place in the event Dataverse at the International Level Annual Technical Symposium, Phase Shift 2025 (B.M.S. College of Engineering) on 19–20 September 2025.
+Project: Predict building Carbon Footprint and suggest interventions to reduce emissions.
 
-Repository: https://github.com/aithal007/DataVerse_1st-place.git
+What this repository contains
+- `dataverse-final-6.ipynb` — analysis, preprocessing, modeling, evaluation, and explainability.
+- `Parikshith Aithal_Dataverse.pdf` — certificate.
 
-## Project overview
+How I built the model (short)
+1. Data cleaning & feature engineering
+   - Removed irrelevant columns (`id`, constant `City`).
+   - One-hot encoded categorical features and converted booleans to integers.
+   - Created `Building_Age` and inspection-related features from `Last_Inspection_Date`.
+   - Standard scaled numeric features (StandardScaler) while keeping dummies intact.
 
-This project predicts the Carbon Footprint for buildings using tabular data. The analysis and modeling are in `dataverse-final-6.ipynb` (notebook). The notebook contains data loading, preprocessing, feature engineering, model training and evaluation.
+2. Models trained & compared
+   - Tried Linear Regression, Ridge, Lasso, Random Forest, Gradient Boosting, and XGBoost.
+   - Evaluated with MSE, RMSE, and R on a 70/30 train/test split and with 5-fold CV.
 
-## What I did — high-level
+3. Ensembling & tuning
+   - Built a StackingRegressor (base: Lasso, LinearRegression, Ridge; final: LinearRegression).
+   - Tuned Lasso and Ridge alphas and final estimator options with GridSearchCV (5-fold).
 
-- Data source: `train.csv` (originally loaded from a Kaggle input path in the notebook).
-- Exploratory data cleaning:
-  - Dropped `id` column (not useful) and `City` (single value — Bangalore).
-  - Checked for missing values and handled types.
-- Feature engineering:
-  - One-hot encoded categorical columns: `Area`, `Building_Type`, `Building_Status`, and `Maintenance_Priority`.
-  - Converted `Construction_Year` into `Building_Age` (2024 - Construction_Year).
-  - Parsed `Last_Inspection_Date` to extract `Inspection_Year`, `Inspection_Month`, and computed `Days_Since_Inspection`.
-  - Dropped the original `Last_Inspection_Date` after feature extraction.
-  - Converted boolean dummy columns to integers.
-  - Standard scaled numeric columns (using `StandardScaler`) while leaving one-hot dummies unscaled.
+4. Explainability & predictions
+   - Used SHAP to inspect feature impacts on model outputs.
+   - Preprocessed test data to match training features, applied the trained scaler, and used the tuned stacking model to produce predictions and `submission.csv`.
 
-## Models trained
+15-minute video outline: "Using Data-Driven Models to Reduce Building Carbon Footprint"
+- 0:00–0:30 — Intro: problem statement, dataset, and goal.
+- 0:30–2:00 — Key features & preprocessing decisions.
+- 2:00–4:30 — Models tried and why (linear vs tree-based vs ensemble).
+- 4:30–7:00 — Stacking approach and brief overview of tuning.
+- 7:00–9:00 — Evaluation: metrics, CV, and learning-curve checks.
+- 9:00–11:30 — Explainability: SHAP summary and an example prediction.
+- 11:30–13:30 — From prediction to action: interventions (energy efficiency, certification, maintenance) and estimated impacts.
+- 13:30–14:30 — Deployment ideas: running the notebook, dashboard integration, monitoring.
+- 14:30–15:00 — Closing and next steps.
 
-I trained multiple regression models and compared performance (MSE, RMSE, R²):
-
-- Linear Regression
-- Ridge Regression (alpha=1.0)
-- Lasso Regression (alpha=0.01)
-- Random Forest Regressor (n_estimators=200)
-- Gradient Boosting Regressor (n_estimators=200)
-- XGBoost Regressor (n_estimators=200, learning_rate=0.1)
-
-Training setup:
-
-- Features / target split: target column `Carbon_Footprint`.
-- Train/test split: 70% train, 30% test (random_state=42).
-
-## Reproducibility / How to run locally
-
-1. Install dependencies (recommended to use a virtualenv or conda environment):
+How to run (local)
+1. Create a venv and install dependencies:
 
 ```powershell
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-2. Open the notebook in Jupyter or VS Code and run `dataverse-final-6.ipynb`.
+2. Open `dataverse-final-6.ipynb` in Jupyter/VS Code and run cells (update data paths if needed).
 
-3. To create a GitHub repo and push (if you want me to push, I need your permission and credentials on this machine):
-
-```powershell
-cd "c:\Users\Lenovo\Documents\DataVerse"
-git remote add origin https://github.com/aithal007/DataVerse_1st-place.git
-git branch -M main
-git push -u origin main
-```
-
-If the remote already exists or you prefer SSH:
-
-```powershell
-git remote add origin git@github.com:aithal007/DataVerse_1st-place.git
-git push -u origin main
-```
-
-Notes on pushing:
-- Pushing requires valid GitHub credentials on this machine (HTTPS credentials or SSH key).
-- If you prefer, I can guide you through creating a personal access token (PAT) and using it for the push.
-
-## Files in this workspace (top-level)
-
-- `dataverse-final-6.ipynb` — analysis & modeling notebook (original work).
-- `Parikshith Aithal_Dataverse.pdf` — certificate PDF.
-- `README.md` — this file (added).
-- `requirements.txt` — Python dependencies (added).
-
-## Notes, assumptions and next steps
-
-- Assumed the notebook's data path is relative to Kaggle; you may need to update the path to `train.csv` when running locally.
-- I did not alter the notebook. If you want I can extract code into .py scripts, add a `src/` module, or prepare a Colab-ready copy.
-- Next step I can take: initialize a local git repo and create an initial commit (I can do that now), then attempt to push to your GitHub remote if you authorize.
-
-If you'd like me to push now, reply and confirm you want me to attempt the push from this machine (I will attempt to push to the URL you provided). If you'd rather push yourself, follow the commands above.
-
-— Parikshith's Dataverse project
-## Short model summary
-
-- Models trained: Linear Regression, Ridge (alpha=1.0), Lasso (alpha=0.01), Random Forest (200 trees), Gradient Boosting (200 estimators), XGBoost (200 trees, lr=0.1).
-- Ensemble: StackingRegressor using Lasso, LinearRegression, and Ridge as base learners with LinearRegression as the final estimator.
-- Tuning: GridSearchCV (5-fold) over lasso__alpha, ridge__alpha, and final_estimator__fit_intercept; best estimator evaluated on the held-out 30% test split.
-- Validation: 5-fold CV (RMSE & R) and a Random Forest learning curve to check for overfitting.
-- Explainability: SHAP (KernelExplainer) applied to the best stacking model to inspect feature impacts.
-- Prediction pipeline: notebook preprocesses test data to match training features, applies the fitted scaler, and uses the tuned stacking model to create `submission.csv`.
+Notes
+- I can generate speaker notes and slides for the 15-minute video if you want.
