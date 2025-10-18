@@ -25,17 +25,6 @@ How I built the model (short)
    - Used SHAP to inspect feature impacts on model outputs.
    - Preprocessed test data to match training features, applied the trained scaler, and used the tuned stacking model to produce predictions and `submission.csv`.
 
-15-minute video outline: "Using Data-Driven Models to Reduce Building Carbon Footprint"
-- 0:00–0:30 — Intro: problem statement, dataset, and goal.
-- 0:30–2:00 — Key features & preprocessing decisions.
-- 2:00–4:30 — Models tried and why (linear vs tree-based vs ensemble).
-- 4:30–7:00 — Stacking approach and brief overview of tuning.
-- 7:00–9:00 — Evaluation: metrics, CV, and learning-curve checks.
-- 9:00–11:30 — Explainability: SHAP summary and an example prediction.
-- 11:30–13:30 — From prediction to action: interventions (energy efficiency, certification, maintenance) and estimated impacts.
-- 13:30–14:30 — Deployment ideas: running the notebook, dashboard integration, monitoring.
-- 14:30–15:00 — Closing and next steps.
-
 How to run (local)
 1. Create a venv and install dependencies:
 
@@ -45,6 +34,3 @@ pip install -r requirements.txt
 ```
 
 2. Open `dataverse-final-6.ipynb` in Jupyter/VS Code and run cells (update data paths if needed).
-
-Notes
-- I can generate speaker notes and slides for the 15-minute video if you want.
