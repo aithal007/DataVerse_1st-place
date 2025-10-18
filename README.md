@@ -85,3 +85,11 @@ Notes on pushing:
 If you'd like me to push now, reply and confirm you want me to attempt the push from this machine (I will attempt to push to the URL you provided). If you'd rather push yourself, follow the commands above.
 
 — Parikshith's Dataverse project
+## Short model summary
+
+- Models trained: Linear Regression, Ridge (alpha=1.0), Lasso (alpha=0.01), Random Forest (200 trees), Gradient Boosting (200 estimators), XGBoost (200 trees, lr=0.1).
+- Ensemble: StackingRegressor using Lasso, LinearRegression, and Ridge as base learners with LinearRegression as the final estimator.
+- Tuning: GridSearchCV (5-fold) over lasso__alpha, ridge__alpha, and final_estimator__fit_intercept; best estimator evaluated on the held-out 30% test split.
+- Validation: 5-fold CV (RMSE & R) and a Random Forest learning curve to check for overfitting.
+- Explainability: SHAP (KernelExplainer) applied to the best stacking model to inspect feature impacts.
+- Prediction pipeline: notebook preprocesses test data to match training features, applies the fitted scaler, and uses the tuned stacking model to create `submission.csv`.
